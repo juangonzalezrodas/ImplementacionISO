@@ -71,18 +71,10 @@ export const registerObject = async (objectData, imageFile) => {
 export const getAllObjects = async (filters = {}) => {
     try {
     const objectsRef = collection(db, 'objects');
-    let q = query(objectsRef, orderBy('createdAt', 'desc'));
-
-    if (filters.status) {
-        q = query(objectsRef, where('status', '==', filters.status), orderBy('createdAt', 'desc'));
-    }
-    if (filters.category) {
-        q = query(objectsRef, where('category', '==', filters.category), orderBy('createdAt', 'desc'));
-    }
-
+    const q = query(objectsRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
-    const objects = [];
     
+    let objects = [];
     querySnapshot.forEach((doc) => {
         objects.push({
         id: doc.id,
@@ -90,9 +82,35 @@ export const getAllObjects = async (filters = {}) => {
         });
     });
 
+    console.log('📦 Total objetos antes de filtrar:', objects.length); // Debug
+    console.log('🔍 Filtros recibidos en servicio:', filters); // Debug
+
+    // FILTRAR EN EL CLIENTE
+    if (filters.status) {
+        console.log('🎯 Filtrando por status:', filters.status);
+        objects = objects.filter(obj => obj.status === filters.status);
+    }
+    
+    if (filters.category) {
+        console.log('🎯 Filtrando por categoría:', filters.category);
+        objects = objects.filter(obj => obj.category === filters.category);
+    }
+    
+    if (filters.color) {
+        console.log('🎯 Filtrando por color:', filters.color);
+        objects = objects.filter(obj => obj.color === filters.color);
+    }
+    
+    if (filters.location) {
+        console.log('🎯 Filtrando por ubicación:', filters.location);
+        objects = objects.filter(obj => obj.location === filters.location);
+    }
+
+    console.log('✅ Objetos después de filtrar:', objects.length); // Debug
+
     return { success: true, data: objects };
     } catch (error) {
-    console.error('Error al obtener objetos:', error);
+    console.error('❌ Error al obtener objetos:', error);
     return { success: false, error: error.message };
     }
 };

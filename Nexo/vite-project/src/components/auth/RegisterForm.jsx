@@ -34,7 +34,7 @@ const RegisterForm = () => {
         return false;
     }
     if (!isValidUAOEmail(formData.email)) {
-        toast.error('Debe usar un correo institucional (@uao.edu.co)');
+        toast.error('El correo electrónico es inválido, el dominio debe ser @uao.edu.co');
         return false;
     }
     if (!isValidIdNumber(formData.idNumber)) {
@@ -60,23 +60,30 @@ const RegisterForm = () => {
     setLoading(true);
     
     try {
+      // Crear usuario en Authentication
         const userCredential = await register(formData.email, formData.password);
+        console.log('Usuario creado en Auth:', userCredential.user.uid);
 
-        await createUserProfile(userCredential.user.uid, {
+      // Crear perfil en Firestore
+        const profileResult = await createUserProfile(userCredential.user.uid, {
         name: formData.name,
         email: formData.email,
         idNumber: formData.idNumber,
         role: formData.role
         });
 
+        if (profileResult.success) {
         toast.success('¡Cuenta creada exitosamente!');
         navigate('/catalog');
+        } else {
+        toast.error('Error al crear perfil: ' + profileResult.error);
+        }
     } catch (error) {
         console.error('Error al registrar:', error);
         if (error.code === 'auth/email-already-in-use') {
         toast.error('Este correo ya está registrado');
         } else {
-        toast.error('Error al crear la cuenta');
+        toast.error('Error al crear la cuenta: ' + error.message);
         }
     } finally {
         setLoading(false);
@@ -104,14 +111,14 @@ const RegisterForm = () => {
             </div>
 
             <div className={styles.formGroup}>
-            <label htmlFor="email">Correo Institucional</label>
+            <label htmlFor="email">Correo Electrónico</label>
             <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="usuario@uao.edu.co"
+                placeholder="usuario@correo.com"
                 required
             />
             </div>

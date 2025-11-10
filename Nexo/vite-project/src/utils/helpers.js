@@ -46,7 +46,6 @@ export const truncateText = (text, maxLength) => {
 export const getStatusText = (status) => {
     const statusTexts = {
     available: 'Disponible',
-    claimed: 'Reclamado',
     delivered: 'Entregado',
     pending: 'Pendiente',
     matched: 'Coincidencia Encontrada',

@@ -25,23 +25,25 @@ export const COLORS = [
 
 export const CAMPUS_LOCATIONS = [
     { value: 'biblioteca', label: 'Biblioteca' },
-    { value: 'cafeteria', label: 'Cafetería' },
-    { value: 'aulas_bloque_a', label: 'Aulas Bloque A' },
-    { value: 'aulas_bloque_b', label: 'Aulas Bloque B' },
-    { value: 'aulas_bloque_c', label: 'Aulas Bloque C' },
+    { value: 'cafeteria', label: 'Cafeteria' },
+    { value: 'aulas_bloque_1', label: 'Aulas 1' },
+    { value: 'aulas_bloque_2', label: 'Aulas 2' },
+    { value: 'aulas_bloque_3', label: 'Aulas 3' },
+    { value: 'aulas_bloque_4', label: 'Aulas 4' },
     { value: 'laboratorios', label: 'Laboratorios' },
     { value: 'zonas_deportivas', label: 'Zonas Deportivas' },
     { value: 'parqueadero', label: 'Parqueadero' },
-    { value: 'jardines', label: 'Jardines/Áreas Verdes' },
+    { value: 'acacias', label: 'Acacias' },
     { value: 'porteria_principal', label: 'Portería Principal' },
-    { value: 'porteria_secundaria', label: 'Portería Secundaria' },
+    { value: 'porteria_3', label: 'Portería 3' },
+    { value: 'bienestar', label: 'bienestar' },
     { value: 'otro', label: 'Otro' }
 ];
 
 export const STORAGE_LOCATIONS = [
     { value: 'porteria_principal', label: 'Portería Principal' },
-    { value: 'porteria_secundaria', label: 'Portería Secundaria' },
-    { value: 'porteria_bloque_c', label: 'Portería Bloque C' }
+    { value: 'porteria_2', label: 'Portería 2' },
+    { value: 'porteria_3', label: 'Portería 3' }
 ];
 
 export const OBJECT_STATUS = {

@@ -17,17 +17,13 @@ const Catalog = () => {
     const [selectedObjectId, setSelectedObjectId] = useState(null);
 
     const handleFilterChange = (newFilters) => {
-    setSearchResults(null);
-    const cleanFilters = {};
-    Object.keys(newFilters).forEach(key => {
-        if (newFilters[key]) {
-        cleanFilters[key] = newFilters[key];
-        }
-    });
-    updateFilters(cleanFilters);
+    console.log('📋 Catalog recibió filtros:', newFilters); // Debug
+    setSearchResults(null); // Limpiar búsqueda
+    updateFilters(newFilters);
     };
 
     const handleClearFilters = () => {
+    console.log('🧹 Limpiando filtros en Catalog'); // Debug
     setSearchResults(null);
     clearFilters();
     };

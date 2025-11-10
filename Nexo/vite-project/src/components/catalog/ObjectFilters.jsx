@@ -4,7 +4,7 @@ import styles from './ObjectFilters.module.css';
 import PropTypes from 'prop-types';
 
 const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
-    const [filters, setFilters] = useState({
+    const [localFilters, setLocalFilters] = useState({
     category: '',
     color: '',
     location: '',
@@ -13,11 +13,24 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
 
     const handleFilterChange = (filterName, value) => {
     const newFilters = {
-        ...filters,
+        ...localFilters,
         [filterName]: value
     };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
+    
+    console.log('🎯 Filtro cambiado:', filterName, '=', value); // Debug
+    
+    setLocalFilters(newFilters);
+    
+    // Crear objeto solo con filtros que tienen valor
+    const activeFilters = {};
+    Object.keys(newFilters).forEach(key => {
+        if (newFilters[key] && newFilters[key] !== '') {
+        activeFilters[key] = newFilters[key];
+        }
+    });
+    
+    console.log('✅ Filtros activos:', activeFilters); // Debug
+    onFilterChange(activeFilters);
     };
 
     const handleClear = () => {
@@ -27,7 +40,7 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         location: '',
         status: ''
     };
-    setFilters(emptyFilters);
+    setLocalFilters(emptyFilters);
     onClearFilters();
     };
 
@@ -37,7 +50,7 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         <label htmlFor="category">Categoría</label>
         <select
             id="category"
-            value={filters.category}
+            value={localFilters.category}
             onChange={(e) => handleFilterChange('category', e.target.value)}
         >
             <option value="">Todas las categorías</option>
@@ -51,7 +64,7 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         <label htmlFor="color">Color</label>
         <select
             id="color"
-            value={filters.color}
+            value={localFilters.color}
             onChange={(e) => handleFilterChange('color', e.target.value)}
         >
             <option value="">Todos los colores</option>
@@ -65,7 +78,7 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         <label htmlFor="location">Ubicación</label>
         <select
             id="location"
-            value={filters.location}
+            value={localFilters.location}
             onChange={(e) => handleFilterChange('location', e.target.value)}
         >
             <option value="">Todas las ubicaciones</option>
@@ -79,12 +92,11 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         <label htmlFor="status">Estado</label>
         <select
             id="status"
-            value={filters.status}
+            value={localFilters.status}
             onChange={(e) => handleFilterChange('status', e.target.value)}
         >
             <option value="">Todos los estados</option>
             <option value={OBJECT_STATUS.AVAILABLE}>Disponible</option>
-            <option value={OBJECT_STATUS.CLAIMED}>Reclamado</option>
             <option value={OBJECT_STATUS.DELIVERED}>Entregado</option>
         </select>
         </div>
@@ -93,7 +105,7 @@ const ObjectFilters = ({ onFilterChange, onClearFilters }) => {
         Limpiar Filtros
         </button>
     </div>
-    ) ;
+    );
 };
 
 ObjectFilters.propTypes = {

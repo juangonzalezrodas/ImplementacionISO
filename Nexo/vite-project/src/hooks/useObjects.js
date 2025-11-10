@@ -12,9 +12,11 @@ export const useObjects = (initialFilters = {}) => {
     setError(null);
     
     try {
+      console.log('🔍 Aplicando filtros:', filters); // Debug
         const result = await getAllObjects(filters);
 
         if (result.success) {
+        console.log('📦 Objetos obtenidos:', result.data.length); // Debug
         setObjects(result.data);
         } else {
         setError(result.error);
@@ -29,17 +31,20 @@ export const useObjects = (initialFilters = {}) => {
 
     useEffect(() => {
     fetchObjects();
-    } , [JSON.stringify(filters)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]); // Dependencia correcta
 
     const refreshObjects = () => {
     fetchObjects();
     };
 
     const updateFilters = (newFilters) => {
-    setFilters({ ...filters, ...newFilters });
+    console.log('🔄 Actualizando filtros:', newFilters); // Debug
+    setFilters(newFilters);
     };
 
     const clearFilters = () => {
+    console.log('🧹 Limpiando filtros'); // Debug
     setFilters({});
     };
 
